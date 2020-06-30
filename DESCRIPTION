@@ -1,5 +1,5 @@
 Package: Rserve
-Version: 1.8.7.9000
+Version: 1.8.7.9001
 Title: Binary R server (1.8-7-MOLGENIS)
 Author: Simon Urbanek <Simon.Urbanek@r-project.org>
 Maintainer: Simon Urbanek <Simon.Urbanek@r-project.org>
