@@ -1755,7 +1755,7 @@ int detach_session(args_t *arg) {
     SAIN ssa;
 	SOCKET s = arg->s;
 	server_t *srv = arg->srv;
-	int port = 32768;
+	int port = 53000;
 	SOCKET ss = FCF("open socket",socket(AF_INET,SOCK_STREAM,0));
     int reuse = 1; /* enable socket address reusage */
 	socklen_t sl = sizeof(session_peer_sa);
@@ -1773,7 +1773,7 @@ int detach_session(args_t *arg) {
 
     setsockopt(ss,SOL_SOCKET,SO_REUSEADDR,(const char*)&reuse,sizeof(reuse));
 
-	while ((port = (((int) random()) & 0x7fff)+32768)>65530) {};
+	while ((port = (((int) random()) & 0x7fff)+53000)>53200) {};
 
 	while (bind(ss,build_sin(&ssa,0,port),sizeof(ssa))) {
 		if (errno!=EADDRINUSE) {
@@ -1785,7 +1785,7 @@ int detach_session(args_t *arg) {
 			return -1;
 		}
 		port++;
-		if (port>65530) {
+		if (port>53200) {
 #ifdef RSERV_DEBUG
 			printf("session: can't find available prot to listed on.\n");
 #endif
