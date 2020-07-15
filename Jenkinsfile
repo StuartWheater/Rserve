@@ -23,6 +23,10 @@ pipeline {
                         env.NEXUS_PASS = sh(script: 'vault read -field=password secret/ops/account/nexus', returnStdout: true)
                     }
                 }
+                container('r') {
+                  sh "apt-get update"
+                  sh "apt-get install -y gettext"
+                }
                 script {
                     env.PACKAGE = sh(script: "grep Package DESCRIPTION | head -n1 | cut -d':' -f2", returnStdout: true).trim()
                 }
@@ -39,7 +43,8 @@ pipeline {
                     script {
                         env.TAG = sh(script: "grep Version DESCRIPTION | head -n1 | cut -d':' -f2", returnStdout: true).trim()
                     }
-                    sh "tar -czvf ${PACKAGE}_${TAG}.tar.gz *"
+                    sh "R CMD build ."
+                    sh "Rscript -e \"install.packages('${PACKAGE}_${TAG}.tar.gz', repos=NULL)\""
                 }
             }
         }
@@ -60,7 +65,8 @@ pipeline {
                     }
                     sh "git commit -a -m 'Increment version number'"
                     sh "echo 'Building ${PACKAGE} v${TAG}'"
-                    sh "tar -czvf ${PACKAGE}_${TAG}.tar.gz *"
+                    sh "R CMD build ."
+                    sh "Rscript -e \"install.packages('${PACKAGE}_${TAG}.tar.gz', repos=NULL)\""
                 }
             }
         }
@@ -111,7 +117,8 @@ pipeline {
                     }
                     sh "git commit -a -m 'Increment version number'"
                     sh "echo \"Releasing ${PACKAGE} v${TAG}\""
-                    sh "tar -czvf ${PACKAGE}_${TAG}.tar.gz *"
+                    sh "R CMD build ."
+                    sh "Rscript -e \"install.packages('${PACKAGE}_${TAG}.tar.gz', repos=NULL)\""
                     container('curl') {
                         sh "curl -v --user '${NEXUS_USER}:${NEXUS_PASS}' --upload-file ${PACKAGE}_${TAG}.tar.gz ${REGISTRY}/src/contrib/${PACKAGE}_${TAG}.tar.gz"
                     }
