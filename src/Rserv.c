@@ -1773,8 +1773,6 @@ int detach_session(args_t *arg) {
 
     setsockopt(ss,SOL_SOCKET,SO_REUSEADDR,(const char*)&reuse,sizeof(reuse));
 
-	while ((port = (((int) random()) & 0x7fff)+53000)>53200) {};
-
 	while (bind(ss,build_sin(&ssa,0,port),sizeof(ssa))) {
 		if (errno!=EADDRINUSE) {
 #ifdef RSERV_DEBUG
