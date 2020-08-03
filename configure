@@ -578,10 +578,10 @@ MFLAGS=
 MAKEFLAGS=
 
 # Identity of this package.
-PACKAGE_NAME='Rserve'
+PACKAGE_NAME='MolgenisRserve'
 PACKAGE_TARNAME='rserve'
-PACKAGE_VERSION='1.8'
-PACKAGE_STRING='Rserve 1.8'
+PACKAGE_VERSION='0.1.0'
+PACKAGE_STRING='MolgenisRserve 0.1'
 PACKAGE_BUGREPORT='Simon.Urbanek@r-project.org'
 PACKAGE_URL=''
 
