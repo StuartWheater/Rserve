@@ -1860,6 +1860,7 @@ SOCKET resume_session() {
 #ifdef RSERV_DEBUG
 				printf("session: accepted\n");
 #endif
+				closesocket(session_socket);
 				return s;
 			}
 		}
