@@ -18,7 +18,7 @@
 /* Brutally hacked by John Walker back from ANSI C to K&R (no
    prototypes) to maintain the tradition that Netfone will compile
    with Sun's original "cc".
-   
+
    Modified to work better with autoconf and added md5hash
    convenience function (Simon Urbanek, 2005/09/30)
 
@@ -47,8 +47,7 @@
 /*
  * Note: this code is harmless on little-endian machines.
  */
-void byteReverse(buf, longs)
-    unsigned char *buf; unsigned longs;
+void byteReverse(unsigned char *buf, unsigned longs)
 {
     uint32 t;
     do {
@@ -64,8 +63,7 @@ void byteReverse(buf, longs)
  * Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
  * initialization constants.
  */
-void MD5Init(ctx)
-    struct MD5Context *ctx;
+void MD5Init(struct MD5Context *ctx)
 {
     ctx->buf[0] = 0x67452301;
     ctx->buf[1] = 0xefcdab89;
@@ -80,8 +78,7 @@ void MD5Init(ctx)
  * Update context to reflect the concatenation of another buffer full
  * of bytes.
  */
-void MD5Update(ctx, buf, len)
-    struct MD5Context *ctx; const unsigned char *buf; unsigned len;
+void MD5Update(struct MD5Context *ctx, const unsigned char *buf, unsigned len)
 {
     uint32 t;
 
@@ -129,8 +126,7 @@ void MD5Update(ctx, buf, len)
  * Final wrapup - pad to 64-byte boundary with the bit pattern 
  * 1 0* (64-bit count of bits processed, MSB-first)
  */
-void MD5Final(digest, ctx)
-    unsigned char digest[16]; struct MD5Context *ctx;
+void MD5Final(unsigned char digest[16], struct MD5Context *ctx)
 {
     unsigned count;
     unsigned char *p;
@@ -189,8 +185,7 @@ void MD5Final(digest, ctx)
  * reflect the addition of 16 longwords of new data.  MD5Update blocks
  * the data and converts bytes into longwords for this routine.
  */
-void MD5Transform(buf, in)
-    uint32 buf[4]; uint32 in[16];
+void MD5Transform(uint32 buf[4], uint32 in[16])
 {
     register uint32 a, b, c, d;
 
@@ -278,7 +273,7 @@ static unsigned char m5hash[16];
 /* the hash must hold 16 bytes */
 unsigned char *md5hash(const void *buf, int len, unsigned char hash[16]) {
     struct MD5Context ctx;
-  
+
     if (!hash) hash=m5hash;
 
     MD5Init(&ctx);
